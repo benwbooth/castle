@@ -19,7 +19,7 @@
           ];
           buildInputs = [
             #rustc cargo 
-            bashInteractive coreutils findutils glibcLocales zstd
+            rustup bashInteractive coreutils findutils glibcLocales zstd
             lld mold clang
           ] ++ lib.optionals stdenv.isLinux [
             alsa-lib
@@ -39,6 +39,7 @@
           };
           shellHook = ''
           export LD_LIBRARY_PATH=$PWD/target/debug/deps:${libxkbcommon}/lib:${wayland}/lib:${alsa-lib}/lib
+          export RUSTUP_HOME=$PWD/.rustup
           '';
           #postFixup = lib.optionalString stdenv.isLinux ''
           #  patchelf $out/bin/castle \
