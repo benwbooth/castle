@@ -6,8 +6,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-#bevy = {version = "0.10.1", features = ["wayland"]}
-bevy = {version = "0.10.1", features = ["wayland", "dynamic_linking"]}
+#bevy = {version = "*", features = ["wayland"]}
+bevy = {version = "*", features = ["wayland", "dynamic_linking"]}
+serde = { version = "*", features = ["derive"]}
+toml = "*"
 
 [workspace]
 resolver = "2" # Important! wgpu/Bevy needs this!
