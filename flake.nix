@@ -15,12 +15,14 @@
           nativeBuildInputs = [
             makeWrapper
             pkg-config
+            libxkbcommon
           ];
           buildInputs = [
-            rustc cargo bashInteractive coreutils findutils glibcLocales zstd
+            #rustc cargo 
+            bashInteractive coreutils findutils glibcLocales zstd
+            lld mold clang
           ] ++ lib.optionals stdenv.isLinux [
             alsa-lib
-            libxkbcommon
             udev
             vulkan-loader
             wayland
@@ -35,7 +37,9 @@
           env = {
             ZSTD_SYS_USE_PKG_CONFIG = true;
           };
-          shellHook = '' '';
+          shellHook = ''
+          export LD_LIBRARY_PATH=$PWD/target/debug/deps:${libxkbcommon}/lib:${wayland}/lib:${alsa-lib}/lib
+          '';
           #postFixup = lib.optionalString stdenv.isLinux ''
           #  patchelf $out/bin/castle \
           #    --add-rpath ${lib.makeLibraryPath [ vulkan-loader ]}
