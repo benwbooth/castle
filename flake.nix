@@ -15,7 +15,6 @@
           nativeBuildInputs = [
             makeWrapper
             pkg-config
-            libxkbcommon
           ];
           buildInputs = [
             #rustc cargo 
@@ -26,6 +25,7 @@
             udev
             vulkan-loader
             wayland
+            libxkbcommon
             xorg.libX11
             xorg.libXcursor
             xorg.libXi
@@ -37,8 +37,9 @@
           env = {
             ZSTD_SYS_USE_PKG_CONFIG = true;
           };
+          LD_LIBRARY_PATH=lib.makeLibraryPath buildInputs;
           shellHook = ''
-          export LD_LIBRARY_PATH=$PWD/target/debug/deps:${libxkbcommon}/lib:${wayland}/lib:${alsa-lib}/lib:${udev}/lib
+          export LD_LIBRARY_PATH=$PWD/target/debug/deps:$PWD/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib:$LD_LIBRARY_PATH
           export RUSTUP_HOME=$PWD/.rustup
           '';
           #postFixup = lib.optionalString stdenv.isLinux ''
