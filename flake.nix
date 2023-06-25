@@ -38,7 +38,7 @@
             ZSTD_SYS_USE_PKG_CONFIG = true;
           };
           shellHook = ''
-          export LD_LIBRARY_PATH=$PWD/target/debug/deps:${libxkbcommon}/lib:${wayland}/lib:${alsa-lib}/lib
+          export LD_LIBRARY_PATH=$PWD/target/debug/deps:${libxkbcommon}/lib:${wayland}/lib:${alsa-lib}/lib:${udev}/lib
           export RUSTUP_HOME=$PWD/.rustup
           '';
           #postFixup = lib.optionalString stdenv.isLinux ''
