@@ -35,5 +35,6 @@ fn main () {
     .add_plugin(TerminalPlugin)
     .add_startup_system(setup)
     .add_system(window_resize_system)
+    .insert_resource(ClearColor(Color::BLACK))
     .run();
 }
