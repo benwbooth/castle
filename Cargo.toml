@@ -10,6 +10,7 @@ edition = "2021"
 bevy = {version = "*", features = ["wayland", "dynamic_linking"]}
 serde = { version = "*", features = ["derive"]}
 toml = "*"
+bevy_ascii_terminal = "*"
 
 [workspace]
 resolver = "2" # Important! wgpu/Bevy needs this!

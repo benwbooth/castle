@@ -320,6 +320,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "bevy_ascii_terminal"
+version = "0.12.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "016dddf79bd160169a3c019777fda25a165f3d1e453bc0eecb629151011a7e71"
+dependencies = [
+ "arrayvec",
+ "bevy",
+ "bevy_tiled_camera",
+ "bitflags",
+ "sark_grids",
+]
+
+[[package]]
 name = "bevy_asset"
 version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -839,6 +852,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "bevy_tiled_camera"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "200feb5b03516436ede20dc50a7f59339d482cf47e4f0a06efb09cf2a63cb2f8"
+dependencies = [
+ "bevy",
+ "sark_grids",
+]
+
+[[package]]
 name = "bevy_time"
 version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1086,6 +1109,7 @@ name = "castle"
 version = "0.1.0"
 dependencies = [
  "bevy",
+ "bevy_ascii_terminal",
  "serde",
  "toml",
 ]
@@ -1350,6 +1374,12 @@ name = "downcast-rs"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9ea835d29036a4087793836fa931b08837ad5e957da9e23886b29586fb9b6650"
+
+[[package]]
+name = "either"
+version = "1.8.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7fcaabb2fef8c910e7f4c7ce9f67a1283a1715879a7c230ca9d6d1ae31f16d91"
 
 [[package]]
 name = "encase"
@@ -1840,6 +1870,15 @@ checksum = "9b2d4429acc1deff0fbdece0325b4997bdb02b2c245ab7023fd5deca0f6348de"
 dependencies = [
  "core-foundation-sys 0.8.4",
  "mach2",
+]
+
+[[package]]
+name = "itertools"
+version = "0.10.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b0fd2260e829bddf4cb6ea802289de2f86d6a7a690192fbe91b3f46e0f2c8473"
+dependencies = [
+ "either",
 ]
 
 [[package]]
@@ -2681,6 +2720,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "93fc1dc3aaa9bfed95e02e6eadabb4baf7e3078b0bd1b4d7b6b0b68378900502"
 dependencies = [
  "winapi-util",
+]
+
+[[package]]
+name = "sark_grids"
+version = "0.5.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e84789a7bb49a57d153bf6260765336a2329c71d8e3f31fbd7e78e5101fb4957"
+dependencies = [
+ "glam",
+ "itertools",
 ]
 
 [[package]]
