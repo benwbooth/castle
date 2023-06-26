@@ -15,7 +15,7 @@ enum Effect {
 struct Item {
     name: String,
     description: String,
-    symbol: String,
+    glyph: String,
     effect: Effect,
     x: u16,
     y: u16,
@@ -25,7 +25,7 @@ struct Item {
 struct Monster {
     name: String,
     description: String,
-    symbol: String,
+    glyph: String,
     hp: u16,
     att: u16,
     def: u16,
@@ -35,12 +35,13 @@ struct Monster {
 struct Room {
     description: String,
     board: String,
-    north: String,
-    south: String,
-    east: String,
-    west: String,
+    north: Option<String>,
+    south: Option<String>,
+    east: Option<String>,
+    west: Option<String>,
     items: Vec<Item>,
     monsters: Vec<Monster>,
+    commands: LinkedHashMap<String,String>,
 }
 
 
