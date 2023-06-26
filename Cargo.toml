@@ -8,8 +8,11 @@ edition = "2021"
 [dependencies]
 bevy = {version = "*", features = ["wayland", "dynamic_linking","bevy_winit"]}
 bevy_ascii_terminal = "*"
-bevy_common_assets = "*"
+bevy_common_assets = {version = "*", features=["toml"]}
 winit = {version = "*", features = ["wayland-csd-adwaita"]}
+serde = "*"
+linked-hash-map = { version = "*", features = ["serde_impl"] }
+regex = "*"
 
 [workspace]
 resolver = "2" # Important! wgpu/Bevy needs this!
