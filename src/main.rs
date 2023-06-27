@@ -1,10 +1,13 @@
-use bevy::{prelude::*, window::WindowResized};
+use bevy::{prelude::*, ecs::query::WorldQuery};
 use bevy_ascii_terminal::prelude::*;
 use bevy_common_assets::toml::TomlAssetPlugin;
 use linked_hash_map::LinkedHashMap;
 
-pub const BOARD_WIDTH: usize = 40;
-pub const BOARD_HEIGHT: usize = 25;
+pub const SCREEN_WIDTH: usize = 40;
+pub const SCREEN_HEIGHT: usize = 25;
+
+pub const BOARD_WIDTH: usize = 24;
+pub const BOARD_HEIGHT: usize = 18;
 
 #[derive(serde::Deserialize)]
 enum Effect {
@@ -17,8 +20,6 @@ struct Item {
     description: String,
     glyph: String,
     effect: Effect,
-    x: u16,
-    y: u16,
 }
 
 #[derive(serde::Deserialize)]
@@ -48,6 +49,8 @@ struct Room {
 #[derive(serde::Deserialize, bevy::reflect::TypeUuid)]
 #[uuid = "9cdb0933-7a78-46aa-9075-538223c0882d"]
 struct Castle {
+    items: LinkedHashMap<String,Item>,
+    monsters: LinkedHashMap<String,Monster>,
     rooms: LinkedHashMap<String,Room>,
 }
 
@@ -57,9 +60,21 @@ pub struct Location{
     y: u16,
 }
 
+#[derive(Component)]
+pub struct Player{
+    hp: u16, 
+    inventory: Vec<Item>,
+}
+
+#[derive(Bundle)]
+pub struct PlayerBundle {
+    player: Player,
+    location: Location,
+}
+
 fn setup(mut commands: Commands) {
     // Create the terminal
-    let mut terminal = Terminal::new([BOARD_WIDTH,BOARD_HEIGHT]);
+    let mut terminal = Terminal::new([SCREEN_WIDTH, SCREEN_HEIGHT]);
     // Draw a blue "Hello world!" to the terminal
     terminal.put_string([0, 24], "Hello world!".fg(Color::BLUE));
 
@@ -69,31 +84,37 @@ fn setup(mut commands: Commands) {
         // Automatically set up the camera to render the terminal
         AutoCamera,
     ));
-}
-
-fn window_resize_system(resize_event: Res<Events<WindowResized>>) {
-    let mut reader = resize_event.get_reader();
-    for e in reader.iter(&resize_event) {
-        println!("width = {} height = {}", e.width, e.height);
-    }
+    commands.spawn(PlayerBundle {
+        player: Player {
+            hp: 100,
+            inventory: vec![],
+        },
+        location: Location {
+            x: 10,
+            y: 10
+        },
+    });
 }
 
 fn player_move(
     mut commands: Commands,
     time: Res<Time>,
-    input: Res<Input<KeyCode>>) 
+    input: Res<Input<KeyCode>>,
+    query: &mut Query<(&Player, &mut Location)>,) 
 {
-    if input.just_pressed(KeyCode::Up) || input.just_pressed(KeyCode::W) {
-
-    }
-    else if input.just_pressed(KeyCode::Down) || input.just_pressed(KeyCode::S) {
-
-    }
-    else if input.just_pressed(KeyCode::Left) || input.just_pressed(KeyCode::A) {
-
-    }
-    else if input.just_pressed(KeyCode::Right) || input.just_pressed(KeyCode::D) {
-
+    for (player, mut location) in query.iter_mut() {
+        if input.just_pressed(KeyCode::Up) || input.just_pressed(KeyCode::W) {
+            location.y += 1;
+        }
+        else if input.just_pressed(KeyCode::Down) || input.just_pressed(KeyCode::S) {
+            location.y -= 1;
+        }
+        else if input.just_pressed(KeyCode::Left) || input.just_pressed(KeyCode::A) {
+            location.x -= 1;
+        }
+        else if input.just_pressed(KeyCode::Right) || input.just_pressed(KeyCode::D) {
+            location.x += 1;
+        }
     }
 }
 
@@ -111,8 +132,8 @@ fn main () {
     .add_plugin(TerminalPlugin)
     .add_startup_system(setup)
     .insert_resource(ClearColor(Color::BLACK))
-    .add_system(window_resize_system)
     .add_system(player_move)
+    .add_system(player_prompt)
     .add_system(enter_room)
     .add_system(monster_move)
     .add_system(render)

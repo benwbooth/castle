@@ -41,6 +41,7 @@
           shellHook = ''
           export LD_LIBRARY_PATH=$PWD/target/debug/deps:$PWD/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib:$LD_LIBRARY_PATH
           export RUSTUP_HOME=$PWD/.rustup
+          export PATH=$RUSTUP_HOME/toolchains/nightly-x86_64-unknown-linux-gnu/bin:$PATH
           '';
           #postFixup = lib.optionalString stdenv.isLinux ''
           #  patchelf $out/bin/castle \
