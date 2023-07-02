@@ -9,12 +9,12 @@ pub const SCREEN_HEIGHT: usize = 25;
 pub const BOARD_WIDTH: usize = 24;
 pub const BOARD_HEIGHT: usize = 18;
 
-#[derive(serde::Deserialize)]
+#[derive(Component, serde::Deserialize)]
 enum Effect {
     None,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(Component, serde::Deserialize)]
 struct Item {
     name: String,
     description: String,
@@ -22,7 +22,7 @@ struct Item {
     effect: Effect,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(Component, serde::Deserialize)]
 struct Monster {
     name: String,
     description: String,
@@ -32,7 +32,7 @@ struct Monster {
     def: u16,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(Component, serde::Deserialize)]
 struct Room {
     description: String,
     board: String,
@@ -46,7 +46,7 @@ struct Room {
 }
 
 
-#[derive(serde::Deserialize, bevy::reflect::TypeUuid)]
+#[derive(Component, serde::Deserialize, bevy::reflect::TypeUuid)]
 #[uuid = "9cdb0933-7a78-46aa-9075-538223c0882d"]
 struct Castle {
     items: LinkedHashMap<String,Item>,
@@ -100,7 +100,8 @@ fn player_move(
     mut commands: Commands,
     time: Res<Time>,
     input: Res<Input<KeyCode>>,
-    query: &mut Query<(&Player, &mut Location)>,) 
+    mut query: Query<(&Player, &mut Location)>,
+) 
 {
     for (player, mut location) in query.iter_mut() {
         if input.just_pressed(KeyCode::Up) || input.just_pressed(KeyCode::W) {
